@@ -80,12 +80,16 @@ return packer.startup(function(use)
   use "neovim/nvim-lspconfig" -- enable LSP
   use "williamboman/nvim-lsp-installer" -- simple to use language server installer
   use "tamago324/nlsp-settings.nvim" -- language server settings defined in json for
-  use "jose-elias-alvarez/null-ls.nvim" -- for formatters and linters
   use 'ray-x/go.nvim'
   use 'ray-x/guihua.lua' -- recommanded if need floating window support
 
+  -- formatting and stuff
+  use "jose-elias-alvarez/null-ls.nvim" -- for formatters and linters
+  use "ckipp01/stylua-nvim"
+
   -- debugging
   use 'mfussenegger/nvim-dap'
+  use 'leoluz/nvim-dap-go'
 
   -- Telescope
   use "nvim-telescope/telescope.nvim"

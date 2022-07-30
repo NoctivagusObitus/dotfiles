@@ -2,6 +2,9 @@ Neovim config inspired by `Neovim IDE from Scratch - Introduction (100% lua conf
 - youutube: https://www.youtube.com/watch?v=ctH-a-1eUME&list=PLhoH5vyxr6Qq41NFL4GvhFp-WLd5xzIzZ&index=1
 - github: https://github.com/LunarVim/Neovim-from-scratch
 
+quite helpful dap setup AND ALSO VERY HELPFUL general vim tips:
+- https://www.youtube.com/watch?v=0moS8UHupGc
+
 make sure to install LSPs via `:LspInstallInfo`
 - bashls (npm)
 - dockerls (npm)
@@ -13,3 +16,6 @@ make sure to install LSPs via `:LspInstallInfo`
 - sqls
 - sumneko_lua
 - yamlls (npm)
+
+install debugging tools (dap)
+- `go install github.com/go-delve/delve/cmd/dlv@latest`
