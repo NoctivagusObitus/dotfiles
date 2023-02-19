@@ -1,0 +1,19 @@
+rules:
+  comments:
+    min-spaces-from-content: 1
+  comments-indentation: enable
+  empty-lines: enable
+  empty-values: enable
+  float-values: enable
+  hyphens: enable
+  indentation: enable
+  key-duplicates: enable
+  key-ordering: disable
+  line-length: enable
+  new-line-at-end-of-file: enable
+  new-lines: enable
+  octal-values: enable
+  quoted-strings: disable
+  trailing-spaces: enable
+  truthy:
+    level: warning
