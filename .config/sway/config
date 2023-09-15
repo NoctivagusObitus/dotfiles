@@ -54,8 +54,8 @@ input 1133:49277:Logitech_Gaming_Mouse_G502 pointer_accel 1
 
 # key repetitions
 input type:keyboard {
-	repeat_delay 225
-	repeat_rate 45
+	repeat_delay 180
+	repeat_rate 65
 
 	xkb_layout us,de
 	xkb_options grp:win_space_toggle,caps:escape
@@ -208,22 +208,23 @@ bindsym $mod+r mode "resize"
 # Read `man 5 sway-bar` for more information about this section.
 bar {
     position top
+    mode hide
 
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
-    status_command while echo $(cat /sys/class/power_supply/BAT1/capacity)% \| $(date +'%Y-%m-%d %H:%M:%S %p'); do sleep 1; done
+    status_command while echo $(cat /sys/class/power_supply/BAT1/capacity)% \| $(date +'%Y-%m-%d %H:%M:%S %p'); do sleep 2; done
 
     colors {
         statusline #ffffff
         background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
+        inactive_workspace #32323200 #323232 #5c5c5c
     }
 }
 
 include /etc/sway/config.d/*
 
 # Window borders
-default_border pixel 3
+default_border pixel 2
 default_floating_border normal
 hide_edge_borders smart_no_gaps # no borders when no gaps
 smart_gaps no_gaps
@@ -281,3 +282,4 @@ exec hash dbus-update-activation-environment 2>/dev/null && dbus-update-activati
 exec /usr/libexec/xdg-desktop-portal-gtk -r
 exec /usr/libexec/xdg-desktop-portal-wlr -r
 exec "sh -c 'sleep 5;exec /usr/libexec/xdg-desktop-portal -r'"
+exec autotiling

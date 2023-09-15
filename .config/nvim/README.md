@@ -40,6 +40,7 @@ make sure to install LSPs via `:Mason`
 
 install LSP tools:
 
+- `sudo emerge -av dev-java/coursier-bin``
 - `go install mvdan.cc/sh/v3/cmd/gosh@latest`
 - `go install github.com/mrjosh/helm-lint-ls@master`
 - `export os=linux; export arch=amd64; sudo curl -L https://github.com/mrjosh/helm-ls/releases/download/master/helm_ls_${os}_${arch} --output /usr/local/bin/helm_ls; sudo chmod +x /usr/local/bin/helm_ls;`
