@@ -1,0 +1,12 @@
+
+[Default Applications]
+image/jepg=org.gnome.eog.desktop
+image/jpg=org.gnome.eog.desktop
+image/jpeg=org.gnome.eog.desktop
+application/pdf=org.gnome.Evince.desktop
+application/json=nvim.desktop
+image/png=org.gnome.eog.desktop
+audio/mpeg=org.atheme.audacious.desktop
+audio/wma=org.atheme.audacious.desktop
+audio/x-ms-wma=org.atheme.audacious.desktop
+application/vnd.rar=org.gnome.FileRoller.desktop
