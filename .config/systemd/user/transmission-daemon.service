@@ -1,0 +1,17 @@
+[Unit]
+Description=Transmission BitTorrent Daemon
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=notify
+ExecStart=/usr/bin/transmission-daemon --foreground --log-level=error --config-dir /home/markus/.config/transmission-daemon
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+NoNewPrivileges=true
+MemoryDenyWriteExecute=true
+ProtectSystem=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
