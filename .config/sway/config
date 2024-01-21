@@ -245,7 +245,7 @@ bindsym $mod+shift+i move container to workspace next_on_output
 # screenshoot
 bindsym $mod+p exec grimshot copy area
 bindsym $mod+p+shift exec grimshot copy window
-bindsym $mod+p+ctrl exec grimshot copry screen
+bindsym $mod+p+ctrl exec grimshot copy screen
 bindsym $mod+p+alt exec GEOMETRY="$(slurp -d)" && sleep 3 && grim -g "$GEOMETRY" - | wl-copy -t image/png
 
 # audio control
@@ -267,7 +267,6 @@ bindsym --locked XF86MonBrightnessDown exec brightnessctl --class=backlight set 
 bindsym --locked XF86MonBrightnessUp exec brightnessctl --class=backlight set 5%+
 
 # blue light filter
-#exec gammastep # older alternative to wlsunset
 exec wlsunset -l 52.5 -L 13.5 -t 3200 -T 6200
 
 # notifications
