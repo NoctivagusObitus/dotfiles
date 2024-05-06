@@ -8,25 +8,25 @@ return {
 		local keymap = vim.keymap -- for conciseness
 		local opts = { noremap = true, silent = true }
 
-		opts.desc = "Next Hunk"
+		opts.desc = "Git Next Hunk"
 		keymap.set("n", "<leader>gj", "<cmd>Gitsigns next_hunk<CR>", opts)
 
-		opts.desc = "Prev Hunk"
+		opts.desc = "Git Prev Hunk"
 		keymap.set("n", "<leader>gk", "<cmd>Gitsigns prev_hunk<CR>", opts)
 
-		opts.desc = "Preview Hunk"
-		keymap.set("n", "<leader>gp", "<cmd>Gitsigns preview_hunk<CR>", opts)
+		opts.desc = "Git Preview Hunk"
+		keymap.set("n", "<leader>gd", "<cmd>Gitsigns preview_hunk<CR>", opts)
 
-		opts.desc = "Stage Hunk"
+		opts.desc = "Git Stage Hunk"
 		keymap.set("n", "<leader>gs", "<cmd>Gitsigns stage_hunk<CR>", opts)
 
-		opts.desc = "Reset Hunk"
+		opts.desc = "Git Reset Hunk"
 		keymap.set("n", "<leader>gr", "<cmd>Gitsigns reset_hunk<CR>", opts)
 
 		opts.desc = "Git Reset Buffer"
 		keymap.set("n", "<leader>gR", "<cmd>Gitsigns reset_buffer<CR>", opts)
 
-		opts.desc = "Blame line"
+		opts.desc = "Git Blame line"
 		keymap.set("n", "<leader>gb", "<cmd>Gitsigns blame_line<CR>", opts)
 
 		require("gitsigns").setup({

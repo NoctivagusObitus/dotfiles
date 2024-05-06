@@ -10,3 +10,4 @@ audio/mpeg=org.atheme.audacious.desktop
 audio/wma=org.atheme.audacious.desktop
 audio/x-ms-wma=org.atheme.audacious.desktop
 application/vnd.rar=org.gnome.FileRoller.desktop
+image/svg+xml=org.gnome.eog.desktop

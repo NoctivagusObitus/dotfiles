@@ -11,7 +11,10 @@ echo "set new kernel version" &&
   echo "new kernel: ${KERNEL_VERSION}" &&
   echo &&
   cd -P /usr/src/linux &&
-  echo "get old config" &&
+  OLD_CONF="$(find /usr/src/*/.config | sort | tail -n1)" &&
+  echo "get old config $OLD_CONF - ${OLD_CONF%"$KERNEL_VERSION"*}" &&
+  test "$OLD_CONF" != "${OLD_CONF%"$KERNEL_VERSION"*}" ||
+  sudo cp -v "$OLD_CONF" ./ &&
   sudo make oldconfig &&
   echo "compile kernel und modules" &&
   sudo make -j16 &&
@@ -21,7 +24,7 @@ echo "set new kernel version" &&
   sudo mv -v /boot/EFI/Gentoo/vmlinuz /boot/EFI/Gentoo_old/vmlinuz &&
   echo "move new linux kernel in place" &&
   sudo make install &&
-  sudo mv -iv "/boot/vmlinuz-${KERNEL_VERSION}" /boot/EFI/Gentoo/vmlinuz &&
+  sudo mv -iv /boot/vmlinuz /boot/EFI/Gentoo/vmlinuz &&
   echo "cleanup boot directory" &&
   sudo find /boot/ -maxdepth 1 -type f -not -path "*${KERNEL_VERSION}*" -not -name .keep -exec rm -v {} \; &&
   echo &&

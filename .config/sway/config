@@ -243,10 +243,10 @@ bindsym $mod+shift+u move container to workspace prev_on_output
 bindsym $mod+shift+i move container to workspace next_on_output
 
 # screenshoot
-bindsym $mod+p exec grimshot copy area
-bindsym $mod+p+shift exec grimshot copy window
-bindsym $mod+p+ctrl exec grimshot copy screen
-bindsym $mod+p+alt exec GEOMETRY="$(slurp -d)" && sleep 3 && grim -g "$GEOMETRY" - | wl-copy -t image/png
+bindsym $mod+p exec grimshot --notify copy area
+bindsym $mod+p+shift exec grimshot --notify copy window
+bindsym $mod+p+ctrl exec grimshot --notify copy screen
+bindsym $mod+p+alt exec grimshot --notify --cusor --wait 3 copy area
 
 # audio control
 bindsym --locked XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle

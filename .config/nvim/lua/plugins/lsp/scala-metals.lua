@@ -30,7 +30,11 @@ return {
 			end,
 		},
 	},
-	ft = { "scala", "sbt", "java" },
+	ft = {
+		"scala",
+		"sbt",
+		-- "java"
+	},
 	opts = function()
 		local metals_config = require("metals").bare_config()
 
@@ -86,7 +90,7 @@ return {
 			end)
 
 			-- buffer diagnostics only
-			map("n", "<leader>d", vim.diagnostic.setloclist)
+			map("n", "<leader>d", vim.diagnostic.open_float)
 
 			map("n", "[c", function()
 				vim.diagnostic.goto_prev({ wrap = false })

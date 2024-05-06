@@ -51,8 +51,6 @@ return {
 				"buf-language-server",
 				"pylint",
 				"pyright",
-				"rust-analyzer",
-				-- "rustfmt", -- deprecated -> install via rustup
 				"semgrep",
 				"shellcheck",
 				"shellharden",
