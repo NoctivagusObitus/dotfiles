@@ -5,7 +5,7 @@ return {
 		priority = 1000,
 		config = function()
 			vim.api.nvim_set_option("background", "dark")
-			vim.cmd("colorscheme onehalf-lush-dark") -- zephyr, zephyrium, nightfox, earlysummer, darker, ferrum, system76, enfocado, aurora
+			vim.cmd("colorscheme monokai") -- onehalf-lush-dark, zephyr, zephyrium, nightfox, earlysummer, darker, ferrum, system76, enfocado, aurora
 		end,
 	},
 	--{

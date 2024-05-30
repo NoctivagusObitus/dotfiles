@@ -11,7 +11,7 @@ echo "set new kernel version" &&
   echo "new kernel: ${KERNEL_VERSION}" &&
   echo &&
   cd -P /usr/src/linux &&
-  OLD_CONF="$(find /usr/src/*/.config | sort | tail -n1)" &&
+  OLD_CONF="$(find /usr/src/linux-*/.config -type f | sort | tail -n1)" &&
   echo "get old config $OLD_CONF - ${OLD_CONF%"$KERNEL_VERSION"*}" &&
   test "$OLD_CONF" != "${OLD_CONF%"$KERNEL_VERSION"*}" ||
   sudo cp -v "$OLD_CONF" ./ &&

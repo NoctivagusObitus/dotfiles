@@ -8,9 +8,10 @@ keymap.set("n", "<F3>", "<cmd>lua require'dap'.toggle_breakpoint()<cr>", opts)
 opts.desc = "DAP Continue"
 keymap.set("n", "<F5>", "<cmd>lua require'dap'.continue()<cr>", opts)
 opts.desc = "DAP Debug Go Test"
-keymap.set("n", "<S-F5>", "<cmd>lua require'dap'.debug_test()<cr>", opts)
-opts.desc = "DAP Debug Python Test"
-keymap.set("n", "<C-F5>", "<cmd>lua require'dap'.test_method()<cr>", opts)
+keymap.set("n", "<S-F5>", "<cmd>lua require'dap-go'.debug_test()<cr>", opts)
+-- da.test_,method() is not a function > use python testling like for go (line above)
+-- opts.desc = "DAP Debug Python Test"
+-- keymap.set("n", "<C-F5>", "<cmd>lua require'dap'.test_method()<cr>", opts)
 opts.desc = "DAP Run to Cursor"
 keymap.set("n", "<F6>", "<cmd>lua require'dap'.run_to_cursor()<cr>", opts)
 opts.desc = "DAP Start REPL"

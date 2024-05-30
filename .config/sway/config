@@ -246,7 +246,7 @@ bindsym $mod+shift+i move container to workspace next_on_output
 bindsym $mod+p exec grimshot --notify copy area
 bindsym $mod+p+shift exec grimshot --notify copy window
 bindsym $mod+p+ctrl exec grimshot --notify copy screen
-bindsym $mod+p+alt exec grimshot --notify --cusor --wait 3 copy area
+bindsym $mod+p+alt exec grimshot --notify --cursor --wait 3 copy area
 
 # audio control
 bindsym --locked XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
