@@ -40,6 +40,7 @@ vim.opt.completeopt = "menuone,noinsert,noselect" -- mostly just for cmp
 vim.opt.scrolloff = 8
 vim.opt.sidescrolloff = 15
 vim.opt.cursorline = true -- highlight the current line
+vim.opt.cursorcolumn = true -- highlight the current column
 
 -- behavior
 vim.opt.hidden = true -- enable background buffers
@@ -63,13 +64,16 @@ vim.o.ruler = false
 vim.o.laststatus = 2
 
 -- remove whitespace on save
-vim.cmd([[au BufWritePre * :%s/\s\+$//e]])
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+	pattern = { "*" },
+	command = [[%s/\s\+$//e]],
+})
 
 -- folding
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldcolumn = "auto:9"
-vim.wo.foldnestmax = 10
+vim.wo.foldnestmax = 5
 vim.wo.foldminlines = 4
 -- on file open, open all folds up to specefied level
 vim.api.nvim_create_autocmd("BufEnter", {

@@ -14,10 +14,6 @@ return {
 		local keymap = vim.keymap -- for conciseness
 		local opts = { noremap = true, silent = true }
 
-		require("neodev").setup({
-			library = { plugins = { "nvim-dap-ui" }, types = true },
-		})
-
 		local on_attach = function(_, bufnr)
 			opts.buffer = bufnr
 		end
@@ -116,7 +112,12 @@ return {
 			on_attach = on_attach,
 		})
 
-		lspconfig["tsserver"].setup({
+		lspconfig["eslint"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+		})
+
+		lspconfig["ts_ls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})
@@ -221,7 +222,8 @@ return {
 			on_attach = on_attach,
 		})
 
-		lspconfig["bufls"].setup({
+		-- protobuf
+		lspconfig["buf_ls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})
@@ -235,6 +237,7 @@ return {
 			capabilities = capabilities,
 			settings = {
 				yaml = {
+					redhat = { telemetry = { enabled = false } },
 					format = {
 						enable = false,
 						bracketSpacing = false,
@@ -250,6 +253,9 @@ return {
 					},
 					schemas = {
 						["kubernetes"] = "/*k8s.yaml",
+						["https://json.schemastore.org/kustomization.json"] = "kustomization.{yml,yaml}",
+						["https://raw.githubusercontent.com/docker/compose/master/compose/config/compose_spec.json"] = "docker-compose*.{yml,yaml}",
+						["https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/application_v1alpha1.json"] = "argocd-application.yaml",
 					},
 				},
 			},

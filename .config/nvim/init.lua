@@ -39,7 +39,6 @@ local opts = {
 }
 require("lazy").setup({
 	{ "folke/neoconf.nvim", cmd = "Neoconf" },
-	"folke/neodev.nvim",
 	install = {
 		-- install missing plugins on startup. This doesn't increase startup time.
 		missing = true,

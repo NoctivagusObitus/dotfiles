@@ -23,6 +23,8 @@ export EDITOR=/usr/bin/nvim
 export VISUAL=/usr/bin/nvim
 export ENV_FILE_PATH=$HOME/scripts/env.sh
 
+export PASSWORD_STORE_DIR=/mnt/magenta/Dokumente/pass
+
 # move disturbing go folder away from home folder
 export GOPATH=$HOME/.local/go
 export PATH=$GOPATH/bin:$PATH

@@ -1,0 +1,19 @@
+# show tag mode on startup
+#run-on-startup select-tag
+
+# reload every x minutes
+reload-time 120
+
+# notify on all new events
+notify-always yes
+
+# use this to send notifications
+notify-program notify-send
+
+# count of parallel reloads
+reload-threads 5
+
+# default theme as badly readable focus colors
+color listfocus           black     blue
+color listfocus_unread    black     blue    bold
+color info                color247  default

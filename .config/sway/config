@@ -35,10 +35,12 @@ exec swayidle -w \
 
 bindsym $mod+BackSpace exec 'swaylock -f -c 000000'
 
+seat "*" hide_cursor 10000
+
 ### Input configuration
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
-input 2:7:SynPS/2_Synaptics_TouchPad {
+input "type:touchpad" {
 	tap enabled
 	dwt enabled
 	tap_button_map lrm
@@ -50,10 +52,10 @@ input 2:7:SynPS/2_Synaptics_TouchPad {
 	accel_profile adaptive
 }
 
-input 1133:49277:Logitech_Gaming_Mouse_G502 pointer_accel 1
+input "1133:49277:Logitech_Gaming_Mouse_G502" pointer_accel 1
 
 # key repetitions
-input type:keyboard {
+input "type:keyboard" {
 	repeat_delay 180
 	repeat_rate 65
 
@@ -236,6 +238,14 @@ bindswitch --reload --locked lid:off output $laptop enable
 # make sure it works when lid cliosed and sway is reloaded
 exec_always /path/to/script.sh
 
+set $gnome-schema org.gnome.desktop.interface
+exec_always {
+    gsettings set $gnome-schema gtk-theme 'Adwaita-dark'
+    # gsettings set $gnome-schema icon-theme 'icon theme name'
+    # gsettings set $gnome-schema cursor-theme 'cursor theme name'
+    # gsettings set $gnome-schema font-name 'Sans 10'
+}
+
 # move workspaces around
 bindsym $mod+u workspace prev_on_output
 bindsym $mod+i workspace next_on_output
@@ -275,10 +285,34 @@ bindsym $mod+backslash exec makoctl dismiss
 bindsym $mod+shift+backslash exec makoctl invoke
 bindsym $mod+alt+backslash exec makoctl restore
 
+# see https://wiki.gentoo.org/wiki/Sway#Automatic_floating_windows
+for_window [window_role = "pop-up"] floating enable
+for_window [window_role = "bubble"] floating enable
+for_window [window_role = "dialog"] floating enable
+for_window [window_type = "dialog"] floating enable
+for_window [window_role = "task_dialog"] floating enable
+for_window [window_type = "menu"] floating enable
+for_window [app_id = "floating"] floating enable
+for_window [app_id = "floating_update"] floating enable, resize set width 1000px height 600px
+for_window [class = "(?i)pinentry"] floating enable
+for_window [title = "Administrator privileges required"] floating enable
+
+# steam
+for_window [class="^Steam$" title="^Friends$"] floating enable
+for_window [class="^Steam$" title="Steam - News"] floating enable
+for_window [class="^Steam$" title=".* - Chat"] floating enable
+for_window [class="^Steam$" title="^Settings$"] floating enable
+for_window [class="^Steam$" title=".* - event started"] floating enable
+for_window [class="^Steam$" title=".* CD key"] floating enable
+for_window [class="^Steam$" title="^Steam - Self Updater$"] floating enable
+for_window [class="^Steam$" title="^Screenshot Uploader$"] floating enable
+for_window [class="^Steam$" title="^Steam Guard - Computer Authorization Required$"] floating enable
+for_window [title="^Steam Keyboard$"] floating enable
+
 # update envs so that systemd knows them and they get used by flatpaks
 exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
 exec hash dbus-update-activation-environment 2>/dev/null && dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
 exec /usr/libexec/xdg-desktop-portal-gtk -r
 exec /usr/libexec/xdg-desktop-portal-wlr -r
 exec "sh -c 'sleep 5;exec /usr/libexec/xdg-desktop-portal -r'"
-exec autotiling
+exec autotiling --limit 2

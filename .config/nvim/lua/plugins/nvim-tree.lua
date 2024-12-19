@@ -1,6 +1,5 @@
 return {
 	"nvim-tree/nvim-tree.lua",
-	lazy = false,
 	dependencies = {
 		"nvim-tree/nvim-web-devicons",
 	},
@@ -20,6 +19,7 @@ return {
 			-- enable default key mappings
 			api.config.mappings.default_on_attach(bufnr)
 			-- add / overwrite with additional custom key mappings
+			vim.keymap.set("n", "<C-t>", api.tree.change_root_to_parent, opts("Up"))
 			vim.keymap.set("n", "l", api.node.open.edit, opts("Open"))
 			vim.keymap.set("n", "?", api.tree.toggle_help, opts("Help"))
 			vim.keymap.set("n", "A", function()

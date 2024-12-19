@@ -13,8 +13,9 @@ dracut \
   --hostonly \
   --fstab \
   --early-microcode \
-  --add " bash crypt lvm resume btrfs " \
-  --add-drivers " nvme " &&
+  --omit " nvidia nvidia-drm nvidia-modeset nvidia-uvm " \
+  --add " bash crypt lvm resume btrfs systemd-cryptsetup " \
+  --add-drivers " nvme i965 " &&
   echo "backup old initramfs" &&
   sudo mv -v /boot/EFI/Gentoo/initramfs /boot/EFI/Gentoo_old/initramfs &&
   echo "move new initramfs in place" &&
