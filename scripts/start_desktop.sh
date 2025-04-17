@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# fiz issue with invisible cursor
+# fix issue with invisible cursor
 export WLR_NO_HARDWARE_CURSORS=1
 export XWAYLAND_NO_GLAMOR=1
 

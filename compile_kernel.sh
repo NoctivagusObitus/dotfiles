@@ -11,11 +11,13 @@ echo "set new kernel version" &&
   echo "new kernel: ${KERNEL_VERSION}" &&
   echo &&
   cd -P /usr/src/linux &&
-  OLD_CONF="$(find /usr/src/linux-*/.config -type f | sort | tail -n1)" &&
-  echo "get old config $OLD_CONF - ${OLD_CONF%"$KERNEL_VERSION"*}" &&
-  test "$OLD_CONF" != "${OLD_CONF%"$KERNEL_VERSION"*}" ||
-  sudo cp -v "$OLD_CONF" ./ &&
-  sudo make oldconfig &&
+  test -f /usr/src/linux/.config || {
+  OLD_CONF="$(find /usr/src/linux-*/.config -type f | sort -V | tail -n1)" &&
+    echo "get old config $OLD_CONF - ${OLD_CONF%"$KERNEL_VERSION"*}" &&
+    test "$OLD_CONF" != "${OLD_CONF%"$KERNEL_VERSION"*}" ||
+    sudo cp -v "$OLD_CONF" ./ &&
+    sudo make oldconfig
+} &&
   echo "compile kernel und modules" &&
   sudo make -j16 &&
   sudo make -j16 modules_install &&

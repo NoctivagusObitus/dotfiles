@@ -159,7 +159,6 @@ return {
 					usePlaceholders = false,
 					analyses = {
 						unusedparams = true,
-						fieldalignment = true,
 						shadow = true,
 						unusedwrite = true,
 						unusedvariable = true,

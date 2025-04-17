@@ -1,17 +1,22 @@
 # show tag mode on startup
 #run-on-startup select-tag
 
-# reload every x minutes
-reload-time 120
+# may break because it is flatpak
+browser firefox
 
-# notify on all new events
-notify-always yes
+# cleanup old articles after n days
+keep-articles-days  365
+max-items           20 # don't show all
+
+# reload every x minutes
+auto-reload yes
+reload-time 180
+reload-threads 2
 
 # use this to send notifications
-notify-program notify-send
-
-# count of parallel reloads
-reload-threads 5
+notify-program  notify-send
+notify-always   yes
+notify-beep     yes
 
 # default theme as badly readable focus colors
 color listfocus           black     blue
