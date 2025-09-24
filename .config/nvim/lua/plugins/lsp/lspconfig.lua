@@ -2,21 +2,17 @@ return {
 	"neovim/nvim-lspconfig",
 	event = { "BufReadPre", "BufNewFile" },
 	dependencies = {
+
+		-- Allows extra capabilities provided by nvim-cmp
 		"hrsh7th/cmp-nvim-lsp",
+
 		"folke/neoconf.nvim",
 		{ "antosha417/nvim-lsp-file-operations", config = true },
-		"simrat39/rust-tools.nvim",
 	},
 	config = function()
-		--local configs = require("lspconfig/configs")
-		local lspconfig = require("lspconfig")
 		local cmp_nvim_lsp = require("cmp_nvim_lsp")
 		local keymap = vim.keymap -- for conciseness
 		local opts = { noremap = true, silent = true }
-
-		local on_attach = function(_, bufnr)
-			opts.buffer = bufnr
-		end
 
 		-- set keybinds
 		opts.desc = "Show LSP references"
@@ -52,12 +48,6 @@ return {
 		opts.desc = "Show line diagnostics"
 		keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
 
-		opts.desc = "Go to previous diagnostic"
-		keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
-
-		opts.desc = "Go to next diagnostic"
-		keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
-
 		opts.desc = "Show documentation for what is under cursor"
 		keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
 
@@ -65,7 +55,8 @@ return {
 		keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
 
 		-- used to enable autocompletion (assign to every lsp server config)
-		local capabilities = cmp_nvim_lsp.default_capabilities()
+		local capabilities = vim.lsp.protocol.make_client_capabilities()
+		capabilities = vim.tbl_deep_extend("force", capabilities, cmp_nvim_lsp.default_capabilities())
 
 		-- Change the Diagnostic symbols in the sign column (gutter)
 		-- (not in youtube nvim video)
@@ -75,80 +66,24 @@ return {
 		--  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 		--end
 
-		local rt = require("rust-tools")
-		local mason_registry = require("mason-registry")
+		local lsp_confs = {}
+		lsp_confs["html"] = {}
 
-		local codelldb = mason_registry.get_package("codelldb")
-		local extention_path = codelldb:get_install_path() .. "/extension/"
-		local codelldb_path = extention_path .. "adapter/codelldb"
-		local liblldb_path = extention_path .. "lldb/lib/liblldb.so"
+		lsp_confs["eslint"] = {}
 
-		rt.setup({
-			server = {
-				on_attach = function(_, bufnr)
-					vim.opt.shiftwidth = 4
-					vim.opt.tabstop = 4
-					vim.opt.softtabstop = 4
-					vim.opt.showtabline = 4
+		lsp_confs["ts_ls"] = {}
 
-					-- Hover actions
-					vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr })
-					-- Code action groups
-					vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
-				end,
-			},
-			tools = {
-				hover_actions = {
-					auto_focus = true,
-				},
-			},
-			dap = {
-				adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path),
-			},
-		})
+		lsp_confs["prismals"] = {}
 
-		lspconfig["html"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
-
-		lspconfig["eslint"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
-
-		lspconfig["ts_ls"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
-
-		lspconfig["prismals"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
-
-		lspconfig["graphql"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
+		lsp_confs["graphql"] = {
 			filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
-		})
+		}
 
-		lspconfig["emmet_ls"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-			filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
-		})
+		lsp_confs["pyright"] = {}
 
-		lspconfig["pyright"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
+		lsp_confs["jdtls"] = {}
 
-		require("lspconfig").jdtls.setup({})
-
-		lspconfig["gopls"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
+		lsp_confs["gopls"] = {
 			filetypes = { "go", "gomod", "gowork", "gotmpl" },
 			root_dir = require("lspconfig/util").root_pattern("go.work", "go.mod", ".git"),
 			settings = {
@@ -174,11 +109,9 @@ return {
 					},
 				},
 			},
-		})
+		}
 
-		lspconfig["lua_ls"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
+		lsp_confs["lua_ls"] = {
 			settings = { -- custom settings for lua
 				Lua = {
 					-- make the language server recognize "vim" global
@@ -194,46 +127,24 @@ return {
 					},
 				},
 			},
-		})
+		}
 
-		lspconfig["bashls"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
+		lsp_confs["bashls"] = {}
 
-		lspconfig["dockerls"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
+		lsp_confs["dockerls"] = {}
 
-		lspconfig["docker_compose_language_service"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
+		lsp_confs["docker_compose_language_service"] = {}
 
-		lspconfig["jsonnet_ls"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
+		lsp_confs["jsonnet_ls"] = {}
 
-		lspconfig["clangd"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
+		lsp_confs["clangd"] = {}
 
 		-- protobuf
-		lspconfig["buf_ls"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
+		lsp_confs["buf_ls"] = {}
 
-		lspconfig["marksman"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
+		lsp_confs["marksman"] = {}
 
-		lspconfig["yamlls"].setup({
-			capabilities = capabilities,
+		lsp_confs["yamlls"] = {
 			settings = {
 				yaml = {
 					redhat = { telemetry = { enabled = false } },
@@ -244,7 +155,6 @@ return {
 					},
 					keyOrdering = false,
 					hover = true,
-					validate = true,
 					completion = true,
 					schemaStore = {
 						url = "https://www.schemastore.org/api/json/catalog.json",
@@ -258,6 +168,12 @@ return {
 					},
 				},
 			},
-		})
+		}
+
+		for server, cfg in pairs(lsp_confs) do
+			cfg.capabilities = vim.tbl_deep_extend("force", capabilities, cfg.capabilities or {})
+			vim.lsp.config(server, cfg)
+			vim.lsp.enable(server)
+		end
 	end,
 }

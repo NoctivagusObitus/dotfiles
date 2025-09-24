@@ -1,9 +1,19 @@
 return {
+	-- Automatically install LSPs and related tools to stdpath for Neovim
 	"williamboman/mason.nvim",
 	lazy = false,
 	dependencies = {
-		"williamboman/mason-lspconfig.nvim",
+		-- mason-lspconfig:
+		-- - Bridges the gap between LSP config names (e.g. "lua_ls") and actual Mason package names (e.g. "lua-language-server").
+		-- - Used here only to allow specifying language servers by their LSP name (like "lua_ls") in `ensure_installed`.
+		-- - It does not auto-configure servers — we use vim.lsp.config() + vim.lsp.enable() explicitly for full control.
+		"mason-org/mason-lspconfig.nvim",
+		-- mason-tool-installer:
+		-- - Installs LSPs, linters, formatters, etc. by their Mason package name.
+		-- - We use it to ensure all desired tools are present.
+		-- - The `ensure_installed` list works with mason-lspconfig to resolve LSP names like "lua_ls".
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
+
 		"jay-babu/mason-nvim-dap.nvim",
 	},
 	config = function()
@@ -18,7 +28,6 @@ return {
 				"bashls",
 				"black",
 				"buf",
-				"buf-language-server",
 				"codelldb",
 				"codespell",
 				"cpplint",
@@ -28,6 +37,7 @@ return {
 				"dockerls",
 				"editorconfig-checker",
 				"eslint_d",
+				"eslint-lsp",
 				"flake8",
 				"gofumpt",
 				"golines",
@@ -60,6 +70,7 @@ return {
 				"staticcheck",
 				"stylua",
 				"ts-standard",
+				"typescript-language-server",
 				"write-good",
 				"xmlformatter",
 				"yamlfmt",

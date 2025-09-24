@@ -16,7 +16,6 @@ return {
 			markdown = { "codespell", "proselint" },
 			proto = { "buf_lint", "codespell" },
 			python = { "pylint", "codespell" },
-			rust = { "codespell" },
 			sh = { "shellcheck", "codespell" },
 			svelte = { "eslint_d" },
 			text = { "codespell", "proselint" },

@@ -1,3 +1,6 @@
+-- this might not even be used without vmp-ai. but better save then sorry
+vim.g.ai_cmp = false
+
 -- tab / indentation
 vim.opt.shiftwidth = 2 -- the number of spaces inserted for each indentation
 vim.opt.tabstop = 2 -- insert 2 spaces for a tab
