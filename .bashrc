@@ -25,6 +25,12 @@ export ENV_FILE_PATH=$HOME/scripts/env.sh
 
 export PASSWORD_STORE_DIR=/mnt/magenta/Dokumente/pass
 
+export GPG_TTY="$(tty)"
+unset SSH_AGENT_PID
+if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+fi
+
 # move disturbing go folder away from home folder
 export GOPATH=$HOME/.local/go
 export PATH=$GOPATH/bin:$PATH
@@ -35,5 +41,10 @@ export PATH=$NPM_CONFIG_PREFIX/bin:$PATH
 alias als='aws s3 ls --human-readable'
 alias trino=~/git/libs/sc-tools/trino-cli/trino-cli.sh
 alias compose=~/git/libs/sc-tools/compose/compose.sh
-alias ls='ls --color=auto'
 alias new='(&>/dev/null foot -D "$PWD" &)'
+alias vi=nvim
+alias k=~/scripts/k8s-cluster.sh
+
+if [ -z "${WAYLAND_DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
+  sway >/tmp/sway.log
+fi

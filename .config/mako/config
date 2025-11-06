@@ -12,12 +12,3 @@ ignore-timeout=1
 
 [mode=do-not-disturb]
 invisible=1
-
-[summary~="[smartclip]*"]
-border-color=#c32a2a
-
-[app-name=evolution-mail-notification]
-border-color=#efef3e
-
-[app-name=Ferdium]
-border-color=#407020

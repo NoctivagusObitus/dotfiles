@@ -11,12 +11,13 @@ set $up k
 set $right l
 
 # Your preferred terminal emulator
-set $term foot
+exec foot --server
+set $term footclient
 
 # Your preferred application launcher
 set $menu wofi --insensitive --show drun | xargs swaymsg exec --
 
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg "$HOME"/sway_dark.png fill
 
 ### Idle configuration
 #
@@ -25,8 +26,8 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 exec swayidle -w \
   timeout 15 'if pgrep -x swaylock; then swaymsg "output * power off"; fi' \
     resume 'swaymsg "output * power on"' \
-  timeout 120 "makoctl set-mode away" \
-    resume  "makoctl set-mode default" \
+  timeout 120 "makoctl mode -a away" \
+    resume  "makoctl set -r away" \
   timeout 900 'swaymsg "output * power off"' \
     resume 'swaymsg "output * power on"' \
   timeout 910 'swaylock -f -c 000000' \
@@ -211,16 +212,7 @@ bindsym $mod+r mode "resize"
 bar {
     position top
     mode hide
-
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    status_command while echo $(cat /sys/class/power_supply/BAT1/capacity)% \| $(date +'%Y-%m-%d %H:%M:%S %p'); do sleep 2; done
-
-    colors {
-        statusline #ffffff
-        background #323232
-        inactive_workspace #32323200 #323232 #5c5c5c
-    }
+    status_command i3status-rs
 }
 
 include /etc/sway/config.d/*
@@ -236,15 +228,7 @@ set $laptop eDP-1
 bindswitch --reload --locked lid:on output $laptop disable
 bindswitch --reload --locked lid:off output $laptop enable
 # make sure it works when lid cliosed and sway is reloaded
-exec_always /path/to/script.sh
-
-set $gnome-schema org.gnome.desktop.interface
-exec_always {
-    gsettings set $gnome-schema gtk-theme 'Adwaita-dark'
-    # gsettings set $gnome-schema icon-theme 'icon theme name'
-    # gsettings set $gnome-schema cursor-theme 'cursor theme name'
-    # gsettings set $gnome-schema font-name 'Sans 10'
-}
+#exec_always /path/to/script.sh
 
 # move workspaces around
 bindsym $mod+u workspace prev_on_output
@@ -253,18 +237,16 @@ bindsym $mod+shift+u move container to workspace prev_on_output
 bindsym $mod+shift+i move container to workspace next_on_output
 
 # screenshoot
-bindsym $mod+p exec grimshot --notify copy area
-bindsym $mod+p+shift exec grimshot --notify copy window
-bindsym $mod+p+ctrl exec grimshot --notify copy screen
-bindsym $mod+p+alt exec grimshot --notify --cursor --wait 3 copy area
+bindsym $mod+p exec sh -c 'AREA="$(slurp)"; grim -g "$AREA" - | wl-copy; notify-send grim "Area: $AREA"'
+bindsym $mod+p+shift exec sh -c 'WINDOW="$(swaymsg -t get_tree | jq -r '"'"' .. | objects | select(.focused==true).rect | "\(.x),\(.y) \(.width)x\(.height)"'"'"')"; grim -g "$WINDOW" - | wl-copy; notify-send grim "Window: $WINDOW"'
+bindsym $mod+p+ctrl exec sh -c 'OUPUT="$(swaymsg -t get_outputs | jq -r '"'"'.[] | select(.focused) | .name'"'"')"; grim -o "$OUPUT" - | wl-copy; notify-send grim "Output: $OUPUT"'
+bindsym $mod+p+alt exec sh -c 'AREA="$(slurp)"; sleep 3; grim -g "$AREA" - | wl-copy; notify-send grim "Area: $AREA"'
 
 # audio control
-bindsym --locked XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume alsa_output.pci-0000_00_1f.3.analog-stereo +5%
-bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume alsa_output.pci-0000_00_1f.3.analog-stereo -5%
-bindsym --locked XF86AudioRaiseVolume+shift exec pactl set-sink-volume alsa_output.usb-0b0e_Jabra_Link_380_50C2ED803A58-00.analog-stereo +5%
-bindsym --locked XF86AudioLowerVolume+shift exec pactl set-sink-volume alsa_output.usb-0b0e_Jabra_Link_380_50C2ED803A58-00.analog-stereo -5%
-bindsym --locked XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+bindsym --locked XF86AudioMute exec wpctl set-mute @DEFAULT_SINK@ toggle
+bindsym --locked XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_SINK@ 5%+
+bindsym --locked XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_SINK@ 5%-
+bindsym --locked XF86AudioMicMute exec wpctl set-mute @DEFAULT_SOURCE@ toggle
 
 # Media player controls
 bindsym XF86AudioPlay exec playerctl play
@@ -273,46 +255,39 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 # bightness control
-bindsym --locked XF86MonBrightnessDown exec brightnessctl --class=backlight set 5%-
-bindsym --locked XF86MonBrightnessUp exec brightnessctl --class=backlight set 5%+
+bindsym --locked XF86MonBrightnessDown exec xbacklight -dec 3
+bindsym --locked XF86MonBrightnessUp exec xbacklight -inc 3
 
 # blue light filter
 exec wlsunset -l 52.5 -L 13.5 -t 3200 -T 6200
 
 # notifications
-exec mako
 bindsym $mod+backslash exec makoctl dismiss
 bindsym $mod+shift+backslash exec makoctl invoke
 bindsym $mod+alt+backslash exec makoctl restore
 
-# see https://wiki.gentoo.org/wiki/Sway#Automatic_floating_windows
-for_window [window_role = "pop-up"] floating enable
-for_window [window_role = "bubble"] floating enable
-for_window [window_role = "dialog"] floating enable
-for_window [window_type = "dialog"] floating enable
-for_window [window_role = "task_dialog"] floating enable
-for_window [window_type = "menu"] floating enable
-for_window [app_id = "floating"] floating enable
-for_window [app_id = "floating_update"] floating enable, resize set width 1000px height 600px
-for_window [class = "(?i)pinentry"] floating enable
-for_window [title = "Administrator privileges required"] floating enable
+# # see https://wiki.gentoo.org/wiki/Sway#Automatic_floating_windows
+# for_window [window_role = "pop-up"] floating enable
+# for_window [window_role = "bubble"] floating enable
+# for_window [window_role = "dialog"] floating enable
+# for_window [window_type = "dialog"] floating enable
+# for_window [window_role = "task_dialog"] floating enable
+# for_window [window_type = "menu"] floating enable
+# for_window [app_id = "floating"] floating enable
+# for_window [app_id = "floating_update"] floating enable, resize set width 1000px height 600px
+# for_window [class = "(?i)pinentry"] floating enable
+# for_window [title = "Administrator privileges required"] floating enable
+#
+# # steam
+# for_window [class="^Steam$" title="^Friends$"] floating enable
+# for_window [class="^Steam$" title="Steam - News"] floating enable
+# for_window [class="^Steam$" title=".* - Chat"] floating enable
+# for_window [class="^Steam$" title="^Settings$"] floating enable
+# for_window [class="^Steam$" title=".* - event started"] floating enable
+# for_window [class="^Steam$" title=".* CD key"] floating enable
+# for_window [class="^Steam$" title="^Steam - Self Updater$"] floating enable
+# for_window [class="^Steam$" title="^Screenshot Uploader$"] floating enable
+# for_window [class="^Steam$" title="^Steam Guard - Computer Authorization Required$"] floating enable
+# for_window [title="^Steam Keyboard$"] floating enable
 
-# steam
-for_window [class="^Steam$" title="^Friends$"] floating enable
-for_window [class="^Steam$" title="Steam - News"] floating enable
-for_window [class="^Steam$" title=".* - Chat"] floating enable
-for_window [class="^Steam$" title="^Settings$"] floating enable
-for_window [class="^Steam$" title=".* - event started"] floating enable
-for_window [class="^Steam$" title=".* CD key"] floating enable
-for_window [class="^Steam$" title="^Steam - Self Updater$"] floating enable
-for_window [class="^Steam$" title="^Screenshot Uploader$"] floating enable
-for_window [class="^Steam$" title="^Steam Guard - Computer Authorization Required$"] floating enable
-for_window [title="^Steam Keyboard$"] floating enable
-
-# update envs so that systemd knows them and they get used by flatpaks
-exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
-exec hash dbus-update-activation-environment 2>/dev/null && dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
-exec /usr/libexec/xdg-desktop-portal-gtk -r
-exec /usr/libexec/xdg-desktop-portal-wlr -r
-exec "sh -c 'sleep 5;exec /usr/libexec/xdg-desktop-portal -r'"
 exec autotiling --limit 2

@@ -46,5 +46,5 @@ require("lazy").setup({
 		colorscheme = { "carbonfox" },
 	},
 	{ import = "plugins" },
-	{ import = "plugins.lsp" },
+	{ import = "plugins.lsp_setup" },
 }, opts)

@@ -5,7 +5,7 @@ return {
 		priority = 1000,
 		config = function()
 			vim.api.nvim_set_option_value("background", "dark", {})
-			vim.cmd("colorscheme monokai") -- onehalf-lush-dark, zephyr, zephyrium, nightfox, earlysummer, darker, ferrum, system76, enfocado, aurora
+			vim.cmd("colorscheme system76") -- onehalf-lush-dark, zephyr, zephyrium, nightfox, monokai, earlysummer, darker, ferrum, system76, enfocado, aurora
 		end,
 	},
 	--{
@@ -49,14 +49,14 @@ return {
 	--		vim.cmd("colorscheme zephyrium") -- zephyr, nightfox, earlysummer, darker, ferrum, system76, enfocado, aurora
 	--	end,
 	--},
-	-- { "lunarvim/colorschemes", lazy = false },
+	{ "lunarvim/colorschemes", lazy = false },
 	-- { "lunarvim/darkplus.nvim", lazy = false },
-	{ "tanvirtin/nvim-monokai", lazy = false },
+	--{ "tanvirtin/nvim-monokai", lazy = false },
 	-- { "wuelnerdotexe/vim-enfocadoj", lazy = false },
 	-- { "titanzero/zephyrium", lazy = false, priority = 1000 },
 	-- { "glepnir/zephyr-nvim", lazy = false, priority = 1000 },
 	-- { "bluz71/vim-nightfly-colors", name = "nightfly", lazy = false, priority = 1000 },
 	-- { "marko-cerovac/material.nvim", lazy = false, priority = 1000 }, -- material-darker
-	{ "askfiy/visual_studio_code", lazy = false, priority = 1000 },
+	-- { "askfiy/visual_studio_code", lazy = false, priority = 1000 },
 	-- { "folke/tokyonight.nvim", lazy = false, priority = 1000 }, -- tokyonight-night
 }

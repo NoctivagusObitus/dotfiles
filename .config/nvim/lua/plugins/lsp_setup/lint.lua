@@ -22,7 +22,6 @@ return {
 			typescript = { "eslint_d" },
 			typescriptreact = { "eslint_d" },
 			yaml = { "yamllint", "codespell" },
-			-- go = { "staticcheck" }, // staticchek should be part of gopls and golangci is slow
 		}
 
 		local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
