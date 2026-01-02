@@ -1,4 +1,3 @@
-
 [Default Applications]
 image/jepg=org.gnome.eog.desktop
 image/jpg=org.gnome.eog.desktop
@@ -11,3 +10,6 @@ audio/wma=org.atheme.audacious.desktop
 audio/x-ms-wma=org.atheme.audacious.desktop
 application/vnd.rar=org.gnome.FileRoller.desktop
 image/svg+xml=org.gnome.eog.desktop
+
+[Added Associations]
+text/plain=nvim.desktop;

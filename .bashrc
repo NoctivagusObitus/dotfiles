@@ -45,6 +45,10 @@ alias new='(&>/dev/null foot -D "$PWD" &)'
 alias vi=nvim
 alias k=~/scripts/k8s-cluster.sh
 
+# steam needs xwayland and this variable set
+# but it brakes sway startup since not all dependencies are installed
+#export DISPLAY=:0
+
 if [ -z "${WAYLAND_DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
-  sway >/tmp/sway.log
+  sway
 fi

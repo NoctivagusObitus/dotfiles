@@ -44,6 +44,7 @@ vim.opt.scrolloff = 8
 vim.opt.sidescrolloff = 15
 vim.opt.cursorline = true -- highlight the current line
 vim.opt.cursorcolumn = true -- highlight the current column
+vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block-blinkon500-blinkoff500-TermCursor,a:Cursor"
 
 -- behavior
 vim.opt.hidden = true -- enable background buffers
