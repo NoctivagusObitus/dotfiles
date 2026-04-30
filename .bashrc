@@ -41,7 +41,7 @@ export PATH=$NPM_CONFIG_PREFIX/bin:$PATH
 alias als='aws s3 ls --human-readable'
 alias trino=~/git/libs/sc-tools/trino-cli/trino-cli.sh
 alias compose=~/git/libs/sc-tools/compose/compose.sh
-alias new='(&>/dev/null foot -D "$PWD" &)'
+alias new='(&>/dev/null footclient -D "$PWD" &)'
 alias vi=nvim
 alias k=~/scripts/k8s-cluster.sh
 
