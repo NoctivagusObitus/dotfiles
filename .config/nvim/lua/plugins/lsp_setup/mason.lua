@@ -144,7 +144,6 @@ return {
         "pyright",
         "ts_ls",
         "yamlls",
-        yamlls,
       }
       -- used to enable autocompletion (assign to every lsp server config)
       local capabilities = vim.lsp.protocol.make_client_capabilities()

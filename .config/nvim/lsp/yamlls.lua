@@ -21,6 +21,7 @@ return {
         "docker-compose*.{yml,yaml}",
         ["https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/application_v1alpha1.json"] =
         "argocd-application.yaml",
+        ["https://github.com/jcchavezs/envoy-config-schema/releases/download/v1.21.0/v3_Bootstrap.json"] = "envoy-config.yaml"
       },
     },
   },

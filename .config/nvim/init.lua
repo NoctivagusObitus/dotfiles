@@ -18,6 +18,7 @@ vim.g.maplocalleader = " "
 require("config.options")
 require("config.keymaps")
 require("config.keymaps_dap")
+require("custom.commands")
 
 local opts = {
 	rtp = {
